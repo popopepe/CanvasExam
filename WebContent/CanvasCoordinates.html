@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Canvas Coordinates</title>
+</head>
+<body>
+	<canvas id="myCanvas" width="400" height="300"
+		style="border: 1px solid black;">
+	</canvas>
+	<script>
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+		ctx.moveTo(0, 0);
+		ctx.lineTo(400, 300);
+		ctx.stroke();
+		
+		ctx.moveTo(400,0);
+		ctx.lineTo(0,300);
+		ctx.stroke();
+		
+		ctx.beginPath();
+		ctx.arc(200,150,80,0,2*Math.PI);
+		ctx.stroke();
+	</script>
+</body>
+</html>

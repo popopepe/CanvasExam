@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Canvas Exam</title>
+</head>
+<body>
+	<canvas id="myCanvas" width="400" height="300"
+		style="border: 1px solid black;">
+	</canvas>
+	<script type="text/javascript">
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+		ctx.fillStyle = "#FF0000";
+		ctx.fillRect(0, 0, 150, 75)
+	</script>
+</body>
+</html>
