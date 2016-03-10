@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style type="text/css">
+#element {
+	position: relative;
+	overflow: hidden;
+	background: green;
+	height: 200px;
+	width: 200px;
+}
+
+div {
+	position: relative;
+	float: left;
+	overflow: hidden;
+	background: blue;
+	height: 200px;
+	width: 200px;
+}
+</style>
+<script type="text/javascript">
+	window.onload = function() {
+		var element = document.getElementById('element');
+		var horizonResizer = document.createElement('div');
+		horizonResizer.className = 'horizonResizer';
+		horizonResizer.style.width = '10px';
+		horizonResizer.style.height = element.style.height;
+		horizonResizer.style.background = 'red';
+		horizonResizer.style.position = 'absolute';
+		horizonResizer.style.right = 0;
+		horizonResizer.style.bottom = 0;
+		horizonResizer.style.cursor = 'e-resize';
+		element.appendChild(horizonResizer);
+		horizonResizer.addEventListener('mousedown', initHorizonResize, false);
+ 
+		function initHorizonResize(e) {
+			window.addEventListener('mousemove', horizonResize, false);
+			window.addEventListener('mouseup', stopResize, false);
+		}
+		function horizonResize(e) {
+			element.style.width = (e.clientX - element.offsetLeft) + 'px';
+			/* element.style.height = (e.clientY - element.offsetTop) + 'px'; */
+		}
+		function stopResize(e) {
+			window.removeEventListener('mousemove', horizonResize, false);
+			window.removeEventListener('mouseup', stopResize, false);
+		}
+	}
+</script>
+</head>
+<body>
+	<div id="element"></div>
+</body>
+</html>

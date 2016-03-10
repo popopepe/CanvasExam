@@ -1,0 +1,52 @@
+<html>
+<head>
+</head>
+<body>
+<script type='text/javascript'>
+var img_L = 0;
+var img_T = 0;
+var targetObj;
+
+function getLeft(o){
+     return parseInt(o.style.left.replace('px', ''));
+}
+function getTop(o){
+     return parseInt(o.style.top.replace('px', ''));
+}
+
+// 이미지 움직이기
+function moveDrag(e){
+     var dmvx = parseInt(e.clientX + img_L);
+     console.log(e.clientX + img_L)
+     var dmvy = parseInt(e.clientY + img_T);
+     targetObj.style.left = dmvx +"px";
+     targetObj.style.top = dmvy +"px";
+     return false;
+}
+
+// 드래그 시작
+function startDrag(e, obj){
+     targetObj = obj;
+     img_L = getLeft(obj) - e.clientX;
+     img_T = getTop(obj) - e.clientY;
+     console.log(img_L);
+
+     document.onmousemove = moveDrag;
+     document.onmouseup = stopDrag;
+     if(e.preventDefault)
+    	 e.preventDefault(); 
+}
+
+// 드래그 멈추기
+function stopDrag(){
+     document.onmousemove = null;
+     document.onmouseup = null;
+}
+</script>
+</body>
+<div style='position:absolute; left:0px; top:0px; cursor:pointer; cursor:hand;' onmousedown='startDrag(event, this)'>
+    <div style='background:blue; width:200px; height:200px;'>drag me</div>
+</div>
+<canvas id="myCanvas" width="100%" height="100%">
+</canvas>
+</html>

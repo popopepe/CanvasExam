@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Drag and Resize Box</title>
+
+<style type="text/css">
+#box {
+	width: 200px;
+	height: 200px;
+	background: pink;
+	position: absolute;
+}
+
+.horizonResizer {
+	width: 10px;
+	background: red;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	cursor: e-resize;
+}
+.verticalResizer {
+	height: 10px;
+	background: yellow;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	cursor: s-resize;
+}
+</style>
+<script type="text/javascript">
+	window.onload = function() {
+
+		//resize variable
+		var box = document.getElementById('box');
+		var horizonResizer = document.createElement('div');
+		var verticalResizer = document.createElement('div');
+
+		horizonResizer.className = 'horizonResizer';
+		horizonResizer.style.height = box.style.height;
+		box.appendChild(horizonResizer);
+		horizonResizer.addEventListener('mousedown', initHorizonResize, false);
+		
+		verticalResizer.className = 'verticalResizer';
+		verticalResizer.style.width = box.style.width;
+		box.appendChild(verticalResizer);
+		verticalResizer.addEventListener('mousedown', initVerticalResize, false);
+		
+		//vertical resize
+		function initVerticalResize(e) {
+			e.stopPropagation();
+			window.addEventListener('mousemove', verticalResize, false);
+			window.addEventListener('mouseup', stopVerticalResize, false);
+		}
+		function verticalResize(e) {
+			box.style.height = (e.clientY - box.offsetTop) + 'px';
+			horizonResizer.style.height = (e.clientY - box.offsetTop) + 'px';
+		}
+		function stopVerticalResize(e) {
+			console.log('mouse UP!!!');
+			window.removeEventListener('mousemove', verticalResize, false);
+			window.removeEventListener('mouseup', stopVerticalResize, false);
+		}
+		
+		
+		//horizon resize
+		function initHorizonResize(e) {
+			e.stopPropagation();
+			window.addEventListener('mousemove', horizonResize, false);
+			window.addEventListener('mouseup', stopHorizonResize, false);
+		}
+		function horizonResize(e) {
+			box.style.width = (e.clientX - box.offsetLeft) + 'px';
+			verticalResizer.style.width = (e.clientX - box.offsetLeft) + 'px';
+		}
+		function stopHorizonResize(e) {
+			window.removeEventListener('mousemove', horizonResize, false);
+			window.removeEventListener('mouseup', stopHorizonResize, false);
+		}
+
+	}
+
+	//dragbox variable
+	var targetObj;
+	var target_L = 0;
+	var target_T = 0;
+
+	function startDrag(e, obj) {
+		targetObj = obj;
+		target_L = getLeft(obj) - e.clientX;
+		target_T = getTop(obj) - e.clientY;
+
+		document.onmousemove = moveDrag;
+		document.onmouseup = stopDrag;
+		if (e.preventDefault)
+			e.preventDefault();
+	}
+
+	function moveDrag(e) {
+		var dmvx = parseInt(e.clientX + target_L);
+		var dmvy = parseInt(e.clientY + target_T);
+		targetObj.style.left = dmvx + "px";
+		targetObj.style.top = dmvy + "px";
+		return false;
+	}
+
+	function stopDrag() {
+		document.onmousemove = null;
+		document.onmouseup = null;
+	}
+
+	function getLeft(o) {
+		return parseInt(o.style.left.replace('px', ''));
+	}
+	function getTop(o) {
+		return parseInt(o.style.top.replace('px', ''));
+	}
+</script>
+</head>
+<body>
+	<div id="box" style='left: 0px; top: 0px; height: 200px; width: 200px;'
+		onmousedown='startDrag(event, this)'></div>
+
+</body>
+
+</html>
