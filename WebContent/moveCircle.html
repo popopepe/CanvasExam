@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Move Circle</title>
+<style type="text/css">
+.circle {
+	position: absolute;
+	border-radius: 50px;
+	left: 0px;
+}
+</style>
+<script type="text/javascript">
+	window.onload = function() {
+
+		var circle = [];
+		var many = 20;
+		var circleWidth = 30;
+		var circleHeight = 30;
+
+		for (var i = 0; i < many; i++) {
+			circle[i] = document.createElement('div');
+			circle[i].className = 'circle';
+			circle[i].style.background = randomColor();
+			circle[i].style.width = circleWidth + 'px';
+			circle[i].style.height = circleHeight + 'px';
+			circle[i].style.left = getRandomInt(circleWidth, window.innerWidth -circleWidth) + 'px';
+			circle[i].style.top = getRandomInt(circleHeight, window.innerHeight -circleHeight) + 'px';
+			document.body.appendChild(circle[i]);
+		}
+
+		/* var circle = [];
+		circle[0] = document.createElement('div');
+		circle[0].className = 'circle';
+		circle[0].style.background = randomColor();
+		circle[0].style.left = getRandomInt(0, window.innerWidth) +'px';
+		
+		document.body.appendChild(circle[0]);
+		
+		circle[1] = document.createElement('div');
+		circle[1].className = 'circle';
+		circle[1].style.background = randomColor();
+		circle[1].style.left = getRandomInt(0, window.innerWidth) +'px';
+		
+		document.body.appendChild(circle[1]); */
+
+		//min to max random Int
+		function getRandomInt(min, max) {
+			return Math.floor(Math.random() * (max - min)) + min;
+		}
+
+		function randomColor() {
+			var six_num = [];
+			var color = "#";
+			//make random 6 number
+			for (var i = 0; i < 6; i++)
+				six_num[i] = Math.floor(Math.random() * 10);
+			//make random color
+			for (var i = 0; i < 6; i++)
+				color += six_num[i];
+
+			return color;
+		}
+
+		var circleLeft = [];
+		var circleTop = [];
+		var x = [];
+		var y = [];
+		for (var i = 0; i < many; i++) {
+			circleLeft[i] = parseInt(circle[i].style.left.replace("px", ""));
+			circleTop[i] = parseInt(circle[i].style.top.replace("px", ""));
+			
+			x[i] = getRandomInt(-5, 5);
+			if(x[i]==0)
+				x[i] = getRandomInt(-5, 5);
+			y[i] = getRandomInt(-5, 5);
+			if(y[i]==0)
+				y[i] = getRandomInt(-5, 5);
+			console.log('x : '+ x[i]);
+			console.log('y : '+ y[i]);
+		}
+
+		var moveCircle;
+		function anim(e) {
+
+			if (e.keyCode == '65') {
+				moveCircle = setInterval(function() {
+
+					
+					for (var i = 0; i < many; i++) {
+						
+						if (circleLeft[i] + circleWidth >= window.innerWidth
+								|| circleLeft[i] < 0) {
+							x[i] = -x[i];
+							
+						}
+
+						if (circleTop[i] + circleHeight >= window.innerHeight
+								|| circleTop[i] < 0) {
+
+							y[i] = -y[i];
+						}
+						
+						circleLeft[i] += x[i];
+						circleTop[i] += y[i];
+						
+						circle[i].style.left = circleLeft[i] + 'px';
+						circle[i].style.top = circleTop[i] + 'px';
+						
+
+					}
+				}, 10);
+
+			}
+
+			if (e.keyCode == '83') {
+				clearInterval(moveCircle);
+
+			}
+			if (e.keyCode == '32') {
+
+				console.log(window.innerWidth);
+			}
+
+		}
+		function moveCircle() {
+
+		}
+		document.onkeydown = anim;
+
+	}
+</script>
+</head>
+<body>
+
+</body>
+</html>
